@@ -20,10 +20,16 @@ body {
 }
 
 header {
+  align-items: center;
+  border-bottom: 1px solid #e5e7eb;
   display: flex;
   justify-content: space-between;
   padding: 20px;
-  border-bottom: 1px solid #e5e7eb;
+}
+
+nav {
+  align-items: center;
+  display: flex;
 }
 
 h3 {
@@ -37,9 +43,9 @@ a {
 
 .registrar,
 .ingresar {
-  padding: 8px 16px;
-  border: none;
   border-radius: var(--radius);
+  border: none;
+  padding: 8px 16px;
 }
 
 .ingresar {
@@ -48,24 +54,31 @@ a {
 
 .registrar {
   background-color: #10b981;
-  margin-left: 10px;
   color: #fff;
+  margin-left: 10px;
+}
+
+.img-avatar {
+  border-radius: 100%;
+  height: auto;
+  margin-left: 10px;
+  width: 35px;
 }
 
 /* MODAL */
 .modal-registrar,
 .modal-ingresar {
+  align-items: center;
   background-color: rgba(0, 0, 0, 0.8);
-  width: 100vw;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
+  justify-content: center;
+  left: 0;
   position: fixed;
   top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  color: #fff;
+  width: 100vw;
 }
 
 .hidden {
@@ -75,25 +88,45 @@ a {
 .modal-buttons {
   display: flex;
   justify-content: space-between;
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 .modal-buttons button {
-  width: 45%;
-  padding: 8px 16px;
-  border: none;
   border-radius: var(--radius);
+  border: none;
   cursor: pointer;
+  padding: 8px 16px;
+  width: 45%;
 }
 
 .modal-registrar input,
 .modal-ingresar input {
+  border-radius: var(--radius);
+  border: none;
   display: block;
-  width: 400px;
   margin: 20px 0;
   padding: 10px;
-  border: none;
+  width: 400px;
+}
+
+.otras-cuentas {
+  text-align: center;
+}
+
+.otras-cuentas p {
+  margin-bottom: 10px;
+}
+
+.otras-cuentas button {
   border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  padding: 8px 16px;
+  width: 100%;
+}
+
+.google {
+  background-color: #fecaca;
 }
 
 /* ALERTA */

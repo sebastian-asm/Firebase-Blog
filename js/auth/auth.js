@@ -13,7 +13,7 @@ export function crearCuentaEmailPass(email, password, nombre) {
 
       // Esto permite una vez verificado el email y presionar continuar vuelve a nuestro home
       const config = {
-        url: 'http://localhost:3000',
+        url: 'http://localhost:5501',
       };
 
       // Enviar un email de verificación de cuenta
@@ -61,6 +61,7 @@ export function authEmailPass(email, password) {
     })
     .catch((error) => {
       console.log(error);
+      firebase.auth().signOut();
       alerta('Credenciales inválidas, vuelve a intentar por favor.', 'error');
     });
 }
@@ -75,4 +76,24 @@ export function cerrarSesion(e) {
     .catch(() =>
       alerta('Error al cerrar la sesión, vuelve a intentar por favor.', 'error')
     );
+}
+
+export function authGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+
+  firebase
+    .auth()
+    .signInWithPopup(provider)
+    .then((resp) => {
+      console.log(resp);
+      alerta('Operación exitosa con tu cuenta de Google.');
+
+      // Limpiando los modal
+      document.querySelector('#modal-registrar').classList.add('hidden');
+      document.querySelector('#modal-ingresar').classList.add('hidden');
+    })
+    .catch((error) => {
+      console.log(error);
+      alerta('Error al autenticar con Google.', 'error');
+    });
 }

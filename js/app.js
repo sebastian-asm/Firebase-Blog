@@ -2,9 +2,10 @@ import {
   crearCuentaEmailPass,
   authEmailPass,
   cerrarSesion,
+  authGoogle,
 } from './auth/auth.js';
-import navbar from './ui/nav.js';
 import alerta from './ui/alerta.js';
+import navbar from './ui/nav.js';
 
 (() => {
   document.addEventListener('DOMContentLoaded', app);
@@ -16,7 +17,7 @@ import alerta from './ui/alerta.js';
     // Observando si existe un usuario autenticado
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        navbar('auth', user.displayName); // Signin
+        navbar('auth', user.displayName, user.photoURL); // Signin
         const cerrar = document.querySelector('#cerrar-sesion');
 
         cerrar.addEventListener('click', cerrarSesion);
@@ -38,6 +39,7 @@ import alerta from './ui/alerta.js';
 
     const cancelarModal = document.querySelector('#cancelar-registrar');
     const form = document.querySelector('#form-registrar');
+    const btnGoogle = document.querySelector('#btn-google');
 
     const registro = (e) => {
       e.preventDefault();
@@ -49,23 +51,19 @@ import alerta from './ui/alerta.js';
 
       // Validación del formulario
       const errorForm = Object.values(formData).some((campo) => campo === '');
-
       if (errorForm) {
         return alerta('Completa todos los campos por favor.', 'error');
       } else if (formData.password.length < 6) {
         return alerta('La contraseña debe tener mínimo 6 carácteres.', 'error');
-      } else {
-        // Creando el registro
-        crearCuentaEmailPass(
-          formData.email,
-          formData.password,
-          formData.nombre
-        );
       }
+
+      // Creando el registro
+      crearCuentaEmailPass(formData.email, formData.password, formData.nombre);
     };
 
     // Escuchando eventos dentro del formulario de registro
     form.addEventListener('submit', registro);
+    btnGoogle.addEventListener('click', registrarConGoogle); // Registrando con cuenta Google
     cancelarModal.addEventListener('click', () => {
       document.querySelector('#modal-registrar').classList.add('hidden');
     });
@@ -78,6 +76,7 @@ import alerta from './ui/alerta.js';
 
     const cancelarModal = document.querySelector('#cancelar-ingresar');
     const form = document.querySelector('#form-ingresar');
+    const btnGoogle = document.querySelector('#btn-google-ingresar');
 
     const ingresar = (e) => {
       e.preventDefault();
@@ -86,21 +85,27 @@ import alerta from './ui/alerta.js';
         password: document.querySelector('#password-ingresar').value,
       };
 
+      // Validación del formulario
       const errorForm = Object.values(formData).some((campo) => campo === '');
-
       if (errorForm) {
         return alerta('Completa todos los campos por favor.', 'error');
       } else if (formData.password.length < 6) {
         return alerta('La contraseña debe tener mínimo 6 carácteres.', 'error');
-      } else {
-        // Iniciando sesión
-        authEmailPass(formData.email, formData.password);
       }
+
+      // Iniciando sesión
+      authEmailPass(formData.email, formData.password);
     };
 
     form.addEventListener('submit', ingresar);
+    btnGoogle.addEventListener('click', registrarConGoogle);
     cancelarModal.addEventListener('click', () => {
       document.querySelector('#modal-ingresar').classList.add('hidden');
     });
+  }
+
+  function registrarConGoogle(e) {
+    e.preventDefault();
+    authGoogle();
   }
 })();
