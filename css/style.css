@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
+
+:root {
+  --color-base: #374151;
+  --radius: 8px;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif !important;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: var(--color-base);
+  margin: 0 auto;
+  width: 80%;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+h3 {
+  font-size: 1.3rem;
+}
+
+a {
+  color: var(--color-base);
+  text-decoration: none;
+}
+
+.registrar,
+.ingresar {
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius);
+}
+
+.ingresar {
+  background-color: #a7f3d0;
+}
+
+.registrar {
+  background-color: #10b981;
+  margin-left: 10px;
+  color: #fff;
+}
+
+/* MODAL */
+.modal-registrar,
+.modal-ingresar {
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #fff;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.modal-buttons button {
+  width: 45%;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.modal-registrar input,
+.modal-ingresar input {
+  display: block;
+  width: 400px;
+  margin: 20px 0;
+  padding: 10px;
+  border: none;
+  border-radius: var(--radius);
+}
+
+/* ALERTA */
+.alerta {
+  color: #fff;
+  height: 80px;
+  left: 0;
+  line-height: 80px;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  width: 100%;
+}

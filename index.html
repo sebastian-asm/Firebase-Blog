@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="./css/style.css" />
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+
+    <title>Proyecto Firebase Blog</title>
+  </head>
+  <body>
+    <header>
+      <a href="/">
+        <h3>Firebase Blog</h3>
+      </a>
+      <nav id="nav"></nav>
+    </header>
+
+    <!-- Modal registrar -->
+    <div class="modal-registrar hidden" id="modal-registrar">
+      <h3>Registrarse</h3>
+      <form id="form-registrar">
+        <input type="text" id="nombre-registrar" placeholder="Nombre" />
+        <input type="email" id="email-registrar" placeholder="Email" />
+        <input
+          type="password"
+          id="password-registrar"
+          placeholder="Contraseña"
+        />
+
+        <div class="modal-buttons">
+          <button type="button" id="cancelar-registrar">
+            Cancelar
+          </button>
+          <button type="submit" class="registrar">Registrar</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Modal ingresar -->
+    <div class="modal-ingresar hidden" id="modal-ingresar">
+      <h3>Iniciar sesión</h3>
+      <form id="form-ingresar">
+        <input
+          type="email"
+          id="email-ingresar"
+          placeholder="Email"
+          value="sebatstian@gmail.com"
+        />
+        <input
+          type="password"
+          id="password-ingresar"
+          placeholder="Contraseña"
+          value="123456"
+        />
+
+        <div class="modal-buttons">
+          <button type="button" id="cancelar-ingresar">
+            Cancelar
+          </button>
+          <button type="submit" class="registrar">Ingresar</button>
+        </div>
+      </form>
+    </div>
+
+    <script src="./js/app.js" type="module"></script>
+  </body>
+</html>
