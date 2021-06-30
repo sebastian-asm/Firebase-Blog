@@ -7,9 +7,10 @@
 
     <link rel="stylesheet" href="./css/style.css" />
 
-    <!-- Firebase -->
+    <!-- Firebase script -->
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.5/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.7/firebase-firestore.js"></script>
 
     <title>Proyecto Firebase Blog</title>
   </head>
@@ -20,59 +21,19 @@
       </a>
       <nav id="nav"></nav>
     </header>
+    <main></main>
+    <footer>
+      <p><span id="fecha"></span> | Proyecto Firebase Blog</p>
+    </footer>
 
-    <!-- Modal registrar -->
-    <div class="modal-registrar hidden" id="modal-registrar">
-      <h3>Registrarse</h3>
-      <form id="form-registrar">
-        <input type="text" id="nombre-registrar" placeholder="Nombre" />
-        <input type="email" id="email-registrar" placeholder="Email" />
-        <input
-          type="password"
-          id="password-registrar"
-          placeholder="Contraseña"
-        />
-
-        <div class="otras-cuentas">
-          <p>o registrar con</p>
-          <button type="button" class="google" id="btn-google">Google</button>
-        </div>
-
-        <div class="modal-buttons">
-          <button type="button" id="cancelar-registrar">
-            Cancelar
-          </button>
-          <button type="submit" class="registrar">Registrar</button>
-        </div>
-      </form>
-    </div>
-
-    <!-- Modal ingresar -->
-    <div class="modal-ingresar hidden" id="modal-ingresar">
-      <h3>Iniciar sesión</h3>
-      <form id="form-ingresar">
-        <input type="email" id="email-ingresar" placeholder="Email" />
-        <input
-          type="password"
-          id="password-ingresar"
-          placeholder="Contraseña"
-        />
-
-        <div class="otras-cuentas">
-          <p>o ingresar con</p>
-          <button type="button" class="google" id="btn-google-ingresar">
-            Google
-          </button>
-        </div>
-
-        <div class="modal-buttons">
-          <button type="button" id="cancelar-ingresar">
-            Cancelar
-          </button>
-          <button type="submit" class="registrar">Ingresar</button>
-        </div>
-      </form>
-    </div>
+    <!-- Template grid de los posts -->
+    <template id="template-post">
+      <div class="post">
+        <h2>Título</h2>
+        <p>Descripción</p>
+        <p class="fecha-post">Publicado el <span id="fecha-post"></span></p>
+      </div>
+    </template>
 
     <script src="./js/app.js" type="module"></script>
   </body>

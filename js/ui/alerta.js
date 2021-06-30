@@ -13,5 +13,5 @@ export default function alerta(msg, tipo = 'ok') {
   div.appendChild(p);
   document.body.appendChild(div);
 
-  setTimeout(() => div.remove(), 3500);
+  setTimeout(() => div.remove(), 3000);
 }

@@ -1,4 +1,3 @@
-import '../config/firebaseConfig.js';
 import alerta from '../ui/alerta.js';
 
 export function crearCuentaEmailPass(email, password, nombre) {
@@ -26,7 +25,7 @@ export function crearCuentaEmailPass(email, password, nombre) {
 
       // Limpiando el formulario
       document.querySelector('#form-registrar').reset();
-      document.querySelector('#modal-registrar').classList.add('hidden'); // Ocultando el modal
+      document.querySelector('#modal-registrar').remove(); // Quitando el modal
 
       alerta(`${nombre}, te enviamos un email para completar el registro.`);
     })
@@ -48,7 +47,7 @@ export function authEmailPass(email, password) {
       // Si el email fue verificado
       if (resp.user.emailVerified) {
         document.querySelector('#form-ingresar').reset();
-        document.querySelector('#modal-ingresar').classList.add('hidden');
+        document.querySelector('#modal-ingresar').remove();
 
         alerta(`${resp.user.displayName}, has iniciado sesión correctamente.`);
       } else {
@@ -72,7 +71,11 @@ export function cerrarSesion(e) {
   firebase
     .auth()
     .signOut()
-    .then(() => alerta('Has cerrado tu sesión.'))
+    .then(() => {
+      // Al cerrar sesión se remueve el menú del usuario autenticado
+      document.querySelector('#menu-usuario').remove();
+      alerta('Has cerrado tu sesión.');
+    })
     .catch(() =>
       alerta('Error al cerrar la sesión, vuelve a intentar por favor.', 'error')
     );
@@ -89,8 +92,11 @@ export function authGoogle() {
       alerta('Operación exitosa con tu cuenta de Google.');
 
       // Limpiando los modal
-      document.querySelector('#modal-registrar').classList.add('hidden');
-      document.querySelector('#modal-ingresar').classList.add('hidden');
+      if (document.querySelector('#modal-registrar')) {
+        document.querySelector('#modal-registrar').remove();
+      } else if (document.querySelector('#modal-ingresar')) {
+        document.querySelector('#modal-ingresar').remove();
+      }
     })
     .catch((error) => {
       console.log(error);
