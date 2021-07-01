@@ -93,8 +93,8 @@ import navbar from './ui/nav.js';
 
     // Escuchando eventos dentro del formulario de registro
     form.addEventListener('submit', registro);
-    btnGoogle.addEventListener('click', registrarConGoogle); // Registrando con cuenta Google
-    btnTwitter.addEventListener('click', registrarConTwitter); // Registrando con Twitter
+    btnGoogle.addEventListener('click', authGoogle); // Registrando con cuenta Google
+    btnTwitter.addEventListener('click', authTwitter); // Registrando con Twitter
     cancelarModal.addEventListener('click', () => {
       document.querySelector('#modal-registrar').remove();
     });
@@ -149,7 +149,6 @@ import navbar from './ui/nav.js';
       const formData = {
         titulo: document.querySelector('#escribir-titulo').value,
         descripcion: document.querySelector('#escribir-descripcion').value,
-        videoUrl: document.querySelector('#escribir-enlace-video').value,
         // imagenUrl: document.querySelector('#subir-imagen-post').value,
       };
 

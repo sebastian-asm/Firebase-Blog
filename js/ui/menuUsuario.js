@@ -18,6 +18,8 @@ export default function menuUsuario() {
       main.insertBefore(section, document.querySelector('#sin-posts'));
     } else if (document.querySelector('h1')) {
       main.insertBefore(section, document.querySelector('h1'));
+    } else if (document.querySelector('#cargando')) {
+      main.insertBefore(section, document.querySelector('#cargando'));
     } else {
       main.appendChild(section);
     }

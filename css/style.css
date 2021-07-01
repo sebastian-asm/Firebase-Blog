@@ -228,6 +228,18 @@ footer span {
   width: 100%;
 }
 
+/* CARGANDO */
+.cargando {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 50px 0;
+}
+
+.cargando span {
+  margin-left: 5px;
+}
+
 /* MEDIA QUERIES */
 @media (max-width: 710px) {
   header {

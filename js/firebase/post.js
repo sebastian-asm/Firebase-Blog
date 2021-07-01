@@ -1,11 +1,12 @@
 import alerta from '../ui/alerta.js';
+import cargando from '../ui/cargando.js';
 import sinPosts from '../ui/sinPosts.js';
 
 const POSTS = 'posts';
 // Creación de la instancia a la base de datos
 const db = firebase.firestore();
 
-export function crearPost({ titulo, descripcion, imagenUrl, videoUrl }) {
+export function crearPost({ titulo, descripcion, imagenUrl }) {
   const { uid, email } = firebase.auth().currentUser;
 
   db.collection(POSTS)
@@ -17,7 +18,6 @@ export function crearPost({ titulo, descripcion, imagenUrl, videoUrl }) {
       titulo,
       descripcion,
       // imagenUrl,
-      videoUrl,
       fecha: Date.now(),
     })
     .then((resp) => {
@@ -36,7 +36,11 @@ export function crearPost({ titulo, descripcion, imagenUrl, videoUrl }) {
     });
 }
 
-export function obtenerPosts() {
+export function obtenerPosts(e) {
+  if (e) e.preventDefault();
+
+  cargando();
+
   // onSnapshot permite tener los datos en tiempo real
   db.collection(POSTS)
     .orderBy('fecha', 'desc')
@@ -89,6 +93,11 @@ export function obtenerPosts() {
 
         div.appendChild(fragment);
         main.append(h1, div);
+      }
+
+      // Eliminando el mensaje de cargando
+      if (document.querySelector('#cargando')) {
+        document.querySelector('#cargando').remove();
       }
     });
 }
