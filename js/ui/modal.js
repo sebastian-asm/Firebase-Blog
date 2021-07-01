@@ -9,14 +9,9 @@ export function modalEscribirPost() {
       <input type="text" id="escribir-titulo" placeholder="Título" />
       <textarea
         id="escribir-descripcion"
-        rows="4"
+        rows="6"
         placeholder="Descripción"
       ></textarea>
-      <input
-        type="text"
-        id="escribir-enlace-video"
-        placeholder="Enlace a video"
-      />
       <input type="file" class="custom-file-upload" id="subir-imagen-post" />
 
       <div class="modal-buttons">
@@ -48,15 +43,12 @@ export function modalIngresarSesion() {
 
       <div class="otras-cuentas">
         <p>o ingresar con</p>
-        <button type="button" class="google" id="btn-google-ingresar">
-          Google
-        </button>
+        <button type="button" class="google" id="btn-google-ingresar">Google</button>
+        <button type="button" class="twitter" id="btn-twitter-ingresar">Twitter</button>
       </div>
 
       <div class="modal-buttons">
-        <button type="button" id="cancelar-ingresar">
-          Cancelar
-        </button>
+        <button type="button" id="cancelar-ingresar">Cancelar</button>
         <button type="submit" class="registrar">Ingresar</button>
       </div>
     </form>
@@ -84,12 +76,11 @@ export function modalRegistrarCuenta() {
       <div class="otras-cuentas">
         <p>o registrar con</p>
         <button type="button" class="google" id="btn-google">Google</button>
+        <button type="button" class="twitter" id="btn-twitter">Twitter</button>
       </div>
 
       <div class="modal-buttons">
-        <button type="button" id="cancelar-registrar">
-          Cancelar
-        </button>
+        <button type="button" id="cancelar-registrar">Cancelar</button>
         <button type="submit" class="registrar">Registrar</button>
       </div>
     </form>

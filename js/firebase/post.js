@@ -1,4 +1,5 @@
 import alerta from '../ui/alerta.js';
+import sinPosts from '../ui/sinPosts.js';
 
 const POSTS = 'posts';
 // Creación de la instancia a la base de datos
@@ -47,14 +48,7 @@ export function obtenerPosts() {
           document.querySelector('#grid-posts').remove();
         }
 
-        const main = document.querySelector('main');
-        const div = document.createElement('div');
-
-        div.classList.add('sin-posts');
-        div.id = 'sin-posts';
-        div.innerHTML = `<p>Aun no hay post, escribe uno.</p>`;
-
-        main.appendChild(div);
+        sinPosts('🙃 ¡Anímate! aun no hay post, escribir uno.');
       } else {
         // Eliminando el mensaje sin posts
         if (document.querySelector('#sin-posts'))
@@ -68,7 +62,7 @@ export function obtenerPosts() {
 
         div.id = 'grid-posts';
         div.classList.add('grid-posts');
-        h1.textContent = 'Todos los post publicados';
+        h1.textContent = 'Todos los posts publicados';
 
         // Limpiando la grid para volver a renderizar con los nuevos posts
         if (document.querySelector('#grid-posts')) {
@@ -77,17 +71,17 @@ export function obtenerPosts() {
         }
 
         snapshot.forEach((post) => {
-          h1.remove();
           const { titulo, descripcion, fecha } = post.data();
           const dia = new Date(fecha).getDate();
           const mes = new Date(fecha).getMonth() + 1;
           const anio = new Date(fecha).getFullYear();
 
-          templatePost.querySelector('h2').textContent = titulo;
-          templatePost.querySelector('p').textContent = descripcion;
           templatePost.querySelector(
             '#fecha-post'
           ).textContent = `${dia}/${mes}/${anio}`;
+          templatePost.querySelector('#titulo').textContent = titulo;
+          templatePost.querySelector('#descripcion').textContent =
+            descripcion.substring(0, 250) + '...';
 
           const clone = templatePost.cloneNode(true);
           fragment.appendChild(clone);
@@ -95,6 +89,28 @@ export function obtenerPosts() {
 
         div.appendChild(fragment);
         main.append(h1, div);
+      }
+    });
+}
+
+export function obtenerPostsUsuario(e) {
+  e.preventDefault();
+  const { uid } = firebase.auth().currentUser;
+
+  db.collection(POSTS)
+    .where('autor.uid', '==', uid) // Filtrando por el id del usuario logueado
+    .onSnapshot((snapshot) => {
+      if (snapshot.empty) {
+        if (document.querySelector('#grid-posts')) {
+          document.querySelector('#grid-posts').remove();
+          document.querySelector('h1').remove();
+        }
+
+        sinPosts('😱 Aun no tienes posts tuyos publicados.');
+      } else {
+        snapshot.forEach((post) => {
+          console.log(post.data());
+        });
       }
     });
 }

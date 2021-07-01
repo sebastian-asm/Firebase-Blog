@@ -1,3 +1,4 @@
+import { obtenerPosts } from './post.js';
 import alerta from '../ui/alerta.js';
 
 export function crearCuentaEmailPass(email, password, nombre) {
@@ -74,6 +75,13 @@ export function cerrarSesion(e) {
     .then(() => {
       // Al cerrar sesión se remueve el menú del usuario autenticado
       document.querySelector('#menu-usuario').remove();
+
+      // Si existe mensaje de que aun no tienes post propios se elimina
+      if (document.querySelector('#sin-posts')) {
+        document.querySelector('#sin-posts').remove();
+      }
+
+      obtenerPosts(); // Recuperando nuevamente todos los posts
       alerta('Has cerrado tu sesión.');
     })
     .catch(() =>
@@ -81,7 +89,8 @@ export function cerrarSesion(e) {
     );
 }
 
-export function authGoogle() {
+export function authGoogle(e) {
+  e.preventDefault();
   const provider = new firebase.auth.GoogleAuthProvider();
 
   firebase
@@ -100,6 +109,35 @@ export function authGoogle() {
     })
     .catch((error) => {
       console.log(error);
-      alerta('Error al autenticar con Google.', 'error');
+      alerta(
+        'Error al autenticar con Google, vuelva a intentar por favor',
+        'error'
+      );
+    });
+}
+
+export function authTwitter(e) {
+  e.preventDefault();
+  const provider = new firebase.auth.TwitterAuthProvider();
+
+  firebase
+    .auth()
+    .signInWithPopup(provider)
+    .then((resp) => {
+      console.log(resp);
+      alerta('Operación exitosa con tu cuenta de Twitter.');
+
+      if (document.querySelector('#modal-registrar')) {
+        document.querySelector('#modal-registrar').remove();
+      } else if (document.querySelector('#modal-ingresar')) {
+        document.querySelector('#modal-ingresar').remove();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      alerta(
+        'Error al autenticar con Twitter, vuelva a intentar por favor.',
+        'error'
+      );
     });
 }

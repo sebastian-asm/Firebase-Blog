@@ -6,8 +6,10 @@ export default function menuUsuario() {
     section.id = 'menu-usuario';
     section.classList.add('menu-usuario');
     section.innerHTML = `
+      <a href="#" id="todos-posts">Todos los posts</a>
+      <span class="separador">|</span>
       <a href="#" id="escribir-post">Escribir post</a>
-      <span>|</span>
+      <span class="separador">|</span>
       <a href="#" id="mis-posts">Mis posts</a>
     `;
 

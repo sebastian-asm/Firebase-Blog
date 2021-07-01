@@ -1,19 +1,24 @@
 import './firebase/firebaseConfig.js';
 
 import {
-  crearCuentaEmailPass,
   authEmailPass,
-  cerrarSesion,
   authGoogle,
+  authTwitter,
+  cerrarSesion,
+  crearCuentaEmailPass,
 } from './firebase/auth.js';
 
 import {
   modalEscribirPost,
-  modalRegistrarCuenta,
   modalIngresarSesion,
+  modalRegistrarCuenta,
 } from './ui/modal.js';
 
-import { crearPost, obtenerPosts } from './firebase/post.js';
+import {
+  crearPost,
+  obtenerPosts,
+  obtenerPostsUsuario,
+} from './firebase/post.js';
 import alerta from './ui/alerta.js';
 import menuUsuario from './ui/menuUsuario.js';
 import navbar from './ui/nav.js';
@@ -26,21 +31,24 @@ import navbar from './ui/nav.js';
     const fecha = document.querySelector('#fecha');
     fecha.textContent = new Date().getFullYear();
 
-    autenticado();
+    autenticado(); // Observando si existe un usuario autenticado
     obtenerPosts(); // Obteniendo todos los post
   }
 
   function autenticado() {
-    // Observando si existe un usuario autenticado
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         menuUsuario(); // Menú para el usuario registrado
         navbar('auth', user.displayName, user.photoURL); // Signin
 
+        const todosPosts = document.querySelector('#todos-posts');
         const escribir = document.querySelector('#escribir-post');
+        const misPosts = document.querySelector('#mis-posts');
         const cerrar = document.querySelector('#cerrar-sesion');
 
+        todosPosts.addEventListener('click', obtenerPosts);
         escribir.addEventListener('click', escribirPost);
+        misPosts.addEventListener('click', obtenerPostsUsuario);
         cerrar.addEventListener('click', cerrarSesion);
       } else {
         navbar(); // Signout
@@ -61,6 +69,7 @@ import navbar from './ui/nav.js';
     const cancelarModal = document.querySelector('#cancelar-registrar');
     const form = document.querySelector('#form-registrar');
     const btnGoogle = document.querySelector('#btn-google');
+    const btnTwitter = document.querySelector('#btn-twitter');
 
     const registro = (e) => {
       e.preventDefault();
@@ -85,6 +94,7 @@ import navbar from './ui/nav.js';
     // Escuchando eventos dentro del formulario de registro
     form.addEventListener('submit', registro);
     btnGoogle.addEventListener('click', registrarConGoogle); // Registrando con cuenta Google
+    btnTwitter.addEventListener('click', registrarConTwitter); // Registrando con Twitter
     cancelarModal.addEventListener('click', () => {
       document.querySelector('#modal-registrar').remove();
     });
@@ -98,6 +108,7 @@ import navbar from './ui/nav.js';
     const cancelarModal = document.querySelector('#cancelar-ingresar');
     const form = document.querySelector('#form-ingresar');
     const btnGoogle = document.querySelector('#btn-google-ingresar');
+    const btnTwitter = document.querySelector('#btn-twitter-ingresar');
 
     const ingresar = (e) => {
       e.preventDefault();
@@ -119,20 +130,15 @@ import navbar from './ui/nav.js';
     };
 
     form.addEventListener('submit', ingresar);
-    btnGoogle.addEventListener('click', registrarConGoogle);
+    btnGoogle.addEventListener('click', authGoogle);
+    btnTwitter.addEventListener('click', authTwitter);
     cancelarModal.addEventListener('click', () => {
       document.querySelector('#modal-ingresar').remove();
     });
   }
 
-  function registrarConGoogle(e) {
-    e.preventDefault();
-    authGoogle();
-  }
-
   function escribirPost(e) {
     e.preventDefault();
-
     modalEscribirPost();
 
     const cancelarModal = document.querySelector('#cancelar-escribir-post');
@@ -147,6 +153,7 @@ import navbar from './ui/nav.js';
         // imagenUrl: document.querySelector('#subir-imagen-post').value,
       };
 
+      // Validación del formulario
       if (formData.titulo.trim() === '' || formData.descripcion.trim() === '')
         return alerta(
           'El título y la descripción son datos necesarios.',
