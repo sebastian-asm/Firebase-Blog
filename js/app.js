@@ -18,7 +18,9 @@ import {
   crearPost,
   obtenerPosts,
   obtenerPostsUsuario,
+  subirImagen,
 } from './firebase/post.js';
+
 import alerta from './ui/alerta.js';
 import menuUsuario from './ui/menuUsuario.js';
 import navbar from './ui/nav.js';
@@ -143,13 +145,13 @@ import navbar from './ui/nav.js';
 
     const cancelarModal = document.querySelector('#cancelar-escribir-post');
     const form = document.querySelector('#form-escribir-post');
+    const imagen = document.querySelector('#subir-imagen-post');
 
     const escribir = (e) => {
       e.preventDefault();
       const formData = {
         titulo: document.querySelector('#escribir-titulo').value,
         descripcion: document.querySelector('#escribir-descripcion').value,
-        // imagenUrl: document.querySelector('#subir-imagen-post').value,
       };
 
       // Validación del formulario
@@ -162,6 +164,12 @@ import navbar from './ui/nav.js';
       // Guardando el post
       crearPost({ ...formData });
     };
+
+    // Subiendo la imagen
+    imagen.addEventListener('change', ({ target }) => {
+      const { uid } = firebase.auth().currentUser;
+      subirImagen(uid, target.files[0]);
+    });
 
     form.addEventListener('submit', escribir);
     cancelarModal.addEventListener('click', () => {

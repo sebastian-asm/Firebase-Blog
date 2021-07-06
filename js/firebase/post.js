@@ -1,4 +1,5 @@
 import alerta from '../ui/alerta.js';
+import barraProgreso from '../ui/barraProgreso.js';
 import cargando from '../ui/cargando.js';
 import gridPosts from '../ui/gridPosts.js';
 import sinPosts from '../ui/sinPosts.js';
@@ -7,7 +8,7 @@ const POSTS = 'posts';
 // Creación de la instancia a la base de datos
 const db = firebase.firestore();
 
-export function crearPost({ titulo, descripcion, imagenUrl }) {
+export function crearPost({ titulo, descripcion }) {
   const { uid, email } = firebase.auth().currentUser;
 
   db.collection(POSTS)
@@ -18,13 +19,18 @@ export function crearPost({ titulo, descripcion, imagenUrl }) {
       },
       titulo,
       descripcion,
-      // imagenUrl,
+      imagen: sessionStorage.getItem('imagen') || null,
       fecha: Date.now(),
     })
     .then((resp) => {
       console.log(resp.id);
       document.querySelector('#form-escribir-post').reset();
       document.querySelector('#modal-escribir-post').remove();
+
+      // Limpiando la foto anteriormente subida
+      if (sessionStorage.getItem('imagen')) {
+        sessionStorage.removeItem('imagen');
+      }
 
       alerta('Post publicado exitosamente.');
     })
@@ -60,7 +66,7 @@ export function obtenerPosts(e) {
           document.querySelector('#sin-posts').remove();
         }
 
-        gridPosts(snapshot); // Renderizando los posts
+        gridPosts(snapshot, 'Todos los posts'); // Renderizando los posts
       }
 
       // Eliminando el mensaje de cargando
@@ -87,11 +93,44 @@ export function obtenerPostsUsuario(e) {
 
         sinPosts('😱 Aun no tienes posts tuyos publicados.');
       } else {
-        gridPosts(snapshot);
+        gridPosts(snapshot, 'Mis posts');
       }
 
       if (document.querySelector('#cargando')) {
         document.querySelector('#cargando').remove();
       }
     });
+}
+
+export function subirImagen(uid, file) {
+  const storage = firebase.storage().ref(`imgPosts/${uid}/${file.name}`);
+  const upload = storage.put(file);
+
+  upload.on(
+    'state_changed',
+    (snapshot) => {
+      const porcentaje =
+        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+      barraProgreso(porcentaje);
+    },
+    (error) => {
+      console.log(error);
+      alerta(
+        'Error al subir el archivo, vuelve a intentar por favor.',
+        'error'
+      );
+    },
+    () => {
+      console.log('archivo subido');
+      upload.snapshot.ref
+        .getDownloadURL()
+        .then((url) => {
+          console.log(url);
+          // Guardando la url de la imagen subida en la sesión activa
+          sessionStorage.setItem('imagen', url);
+        })
+        .catch((error) => console.log(error));
+    }
+  );
 }
