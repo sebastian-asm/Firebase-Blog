@@ -24,6 +24,7 @@ import {
 import alerta from './ui/alerta.js';
 import menuUsuario from './ui/menuUsuario.js';
 import navbar from './ui/nav.js';
+import sw from './sw.js';
 
 (() => {
   document.addEventListener('DOMContentLoaded', app);
@@ -32,6 +33,8 @@ import navbar from './ui/nav.js';
   function app() {
     const fecha = document.querySelector('#fecha');
     fecha.textContent = new Date().getFullYear();
+
+    sw(); // Service Worker
 
     autenticado(); // Observando si existe un usuario autenticado
     obtenerPosts(); // Obteniendo todos los post

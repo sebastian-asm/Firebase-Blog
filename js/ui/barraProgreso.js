@@ -5,15 +5,10 @@ export default function barraProgreso(porcentaje) {
 
   const div = document.createElement('div');
 
-  if (porcentaje !== 100) {
-    div.textContent = 'Subiendo...';
-  } else {
-    div.textContent = '¡Listo!';
-  }
-
   div.id = 'progreso';
   div.classList.add('progreso');
   div.style.width = `${porcentaje}%`;
+  div.textContent = porcentaje !== 100 ? 'Subiendo...' : '¡Listo!';
 
   document
     .querySelector('#form-escribir-post')
